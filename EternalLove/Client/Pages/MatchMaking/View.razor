@@ -1,0 +1,15 @@
+﻿@page "/userdetails/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>View User</h3>
+
+<FormComponent userdetail="userdetail" Disabled="true" />
+@code {
+    [Parameter] public int id { get; set; }
+    UserDetail userdetail = new UserDetail();
+    protected async override Task OnParametersSetAsync()
+    {
+        userdetail = await _client.GetFromJsonAsync<UserDetail>($"{Endpoints.UserDetailsEndpoint}/{id}");
+    }
+}

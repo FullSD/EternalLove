@@ -1,0 +1,24 @@
+﻿@page "/userdetails/create"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New User</h3>
+<hr />
+<br />
+<FormComponent ButtonText="Create UserDetail" userdetail="userdetail" OnValidSubmit="@CreateUserDetails" />
+@code {
+    UserDetail userdetail = new UserDetail();
+
+    private IList<Gender> Genders;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Genders = await _client.GetFromJsonAsync<List<Gender>>($"{Endpoints.GendersEndpoint}");
+    }
+    private async Task CreateUserDetails()
+    {
+        await _client.PostAsJsonAsync(Endpoints.UserDetailsEndpoint, userdetail);
+        _navManager.NavigateTo("/userdetails/");
+
+    }
+}
