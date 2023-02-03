@@ -1,0 +1,15 @@
+﻿@page "/genders/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+<h3>View Gender</h3>
+<FormComponent gender="gender" Disabled="true" />
+@code {
+    [Parameter] public int id { get; set; }
+    Gender gender = new Gender();
+    protected async override Task OnParametersSetAsync()
+    {
+        gender = await
+        _client.GetFromJsonAsync<Gender>($"{Endpoints.GendersEndpoint}/{id}");
+    }
+}
+

@@ -90,6 +90,41 @@ namespace EternalLove.Server.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("EternalLove.Shared.Domain.Block", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("BlockUser")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MyProperty")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Blocks");
+                });
+
             modelBuilder.Entity("EternalLove.Shared.Domain.Gender", b =>
                 {
                     b.Property<int>("Id")
@@ -121,8 +156,8 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 1, 30, 19, 44, 23, 757, DateTimeKind.Local).AddTicks(57),
-                            DateUpdated = new DateTime(2023, 1, 30, 19, 44, 23, 758, DateTimeKind.Local).AddTicks(3184),
+                            DateCreated = new DateTime(2023, 2, 4, 0, 31, 30, 559, DateTimeKind.Local).AddTicks(3805),
+                            DateUpdated = new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7324),
                             Name = "Male",
                             UpdatedBy = "System"
                         },
@@ -130,11 +165,38 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 1, 30, 19, 44, 23, 758, DateTimeKind.Local).AddTicks(3760),
-                            DateUpdated = new DateTime(2023, 1, 30, 19, 44, 23, 758, DateTimeKind.Local).AddTicks(3763),
+                            DateCreated = new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7955),
+                            DateUpdated = new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7958),
                             Name = "Female",
                             UpdatedBy = "System"
                         });
+                });
+
+            modelBuilder.Entity("EternalLove.Shared.Domain.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
                 });
 
             modelBuilder.Entity("EternalLove.Shared.Domain.Match", b =>
@@ -171,6 +233,73 @@ namespace EternalLove.Server.Migrations
                     b.ToTable("Matchs");
                 });
 
+            modelBuilder.Entity("EternalLove.Shared.Domain.Report", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReportBugs")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reports");
+                });
+
+            modelBuilder.Entity("EternalLove.Shared.Domain.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReviewText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Stars")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
+                });
+
             modelBuilder.Entity("EternalLove.Shared.Domain.UserDetail", b =>
                 {
                     b.Property<int>("Id")
@@ -196,6 +325,9 @@ namespace EternalLove.Server.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Location1Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -211,6 +343,8 @@ namespace EternalLove.Server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GenderId");
+
+                    b.HasIndex("Location1Id");
 
                     b.ToTable("UserDetails");
                 });
@@ -453,6 +587,17 @@ namespace EternalLove.Server.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("EternalLove.Shared.Domain.Block", b =>
+                {
+                    b.HasOne("EternalLove.Shared.Domain.UserDetail", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EternalLove.Shared.Domain.Match", b =>
                 {
                     b.HasOne("EternalLove.Shared.Domain.UserDetail", "UserDetail1")
@@ -468,6 +613,28 @@ namespace EternalLove.Server.Migrations
                     b.Navigation("UserDetail2");
                 });
 
+            modelBuilder.Entity("EternalLove.Shared.Domain.Report", b =>
+                {
+                    b.HasOne("EternalLove.Shared.Domain.UserDetail", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("EternalLove.Shared.Domain.Review", b =>
+                {
+                    b.HasOne("EternalLove.Shared.Domain.UserDetail", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("EternalLove.Shared.Domain.UserDetail", b =>
                 {
                     b.HasOne("EternalLove.Shared.Domain.Gender", "Gender")
@@ -476,7 +643,15 @@ namespace EternalLove.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EternalLove.Shared.Domain.Location", "Location1")
+                        .WithMany()
+                        .HasForeignKey("Location1Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Gender");
+
+                    b.Navigation("Location1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

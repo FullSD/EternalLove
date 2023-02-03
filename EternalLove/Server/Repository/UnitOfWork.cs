@@ -19,7 +19,7 @@ namespace EternalLove.Server.Repository
         private IGenericRepository<UserDetail> _UserDetails;
         private IGenericRepository<Gender> _Genders;
         private IGenericRepository<Match> _Matchs;
-
+        private IGenericRepository<Location> _Locations;
 
         private UserManager<ApplicationUser> _userManager;
 
@@ -36,6 +36,9 @@ namespace EternalLove.Server.Repository
 
         public IGenericRepository<Match> Matchs
             => _Matchs ??= new GenericRepository<Match>(_context);
+
+        public IGenericRepository<Location> Locations
+            => _Locations ??= new GenericRepository<Location>(_context);
 
         public void Dispose()
         {

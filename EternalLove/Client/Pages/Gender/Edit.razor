@@ -1,0 +1,24 @@
+﻿@page  "/genders/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit Gender</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditGender" gender="gender" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Gender gender = new Gender();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        gender = await _client.GetFromJsonAsync<Gender>($"{Endpoints.GendersEndpoint}/{id}");
+    }
+
+    async Task EditGender()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.GendersEndpoint}/{id}",gender);
+        _navManager.NavigateTo("/genders/");
+    }
+
+}

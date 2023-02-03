@@ -14,6 +14,7 @@ namespace EternalLove.Server.IRepository
         IGenericRepository<UserDetail> UserDetails { get; }
         IGenericRepository<Gender> Genders { get; }
         IGenericRepository<Match> Matchs { get; }
+        IGenericRepository<Location> Locations { get; }
 
     }
 }

@@ -13,48 +13,48 @@ namespace EternalLove.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserDetailsController : ControllerBase
+    public class LocationsController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserDetailsController(IUnitOfWork unitOfWork)
+        public LocationsController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        // GET: api/UserDetails
+        // GET: api/Locations
         [HttpGet]
-        public async Task<IActionResult> GetUserDetails()
+        public async Task<IActionResult> GetLocations()
         {
-            var UserDetails = await _unitOfWork.UserDetails.GetAll(includes: q => q.Include(x => x.Gender).Include(x => x.Location1));
-            return Ok(UserDetails);
+            var Locations = await _unitOfWork.Locations.GetAll();
+            return Ok(Locations);
         }
 
-        // GET: api/UserDetails/5
+        // GET: api/Locations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDetail>> GetUserDetail(int id)
+        public async Task<ActionResult<Location>> GetLocation(int id)
         {
-            var UserDetail = await _unitOfWork.UserDetails.Get(q => q.Id == id);
+            var Location = await _unitOfWork.Locations.Get(q => q.Id == id);
 
-            if (UserDetail == null)
+            if (Location == null)
             {
                 return NotFound();
             }
 
-            return UserDetail;
+            return Location;
         }
 
-        // PUT: api/UserDetails/5
+        // PUT: api/Locations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserDetail(int id, UserDetail UserDetail)
+        public async Task<IActionResult> PutLocation(int id, Location Location)
         {
-            if (id != UserDetail.Id)
+            if (id != Location.Id)
             {
                 return BadRequest();
             }
 
-            _unitOfWork.UserDetails.Update(UserDetail);
+            _unitOfWork.Locations.Update(Location);
 
             try
             {
@@ -62,7 +62,7 @@ namespace EternalLove.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await UserDetailExists(id))
+                if (!await LocationExists(id))
                 {
                     return NotFound();
                 }
@@ -75,37 +75,37 @@ namespace EternalLove.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/UserDetails
+        // POST: api/Locations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserDetail>> PostUserDetail(UserDetail UserDetail)
+        public async Task<ActionResult<Location>> PostLocation(Location Location)
         {
-            await _unitOfWork.UserDetails.Insert(UserDetail);
+            await _unitOfWork.Locations.Insert(Location);
             await _unitOfWork.Save(HttpContext);
 
-            return CreatedAtAction("GetUserDetail", new { id = UserDetail.Id }, UserDetail);
+            return CreatedAtAction("GetLocation", new { id = Location.Id }, Location);
         }
 
-        // DELETE: api/UserDetails/5
+        // DELETE: api/Locations/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserDetail(int id)
+        public async Task<IActionResult> DeleteLocation(int id)
         {
-            var UserDetail = await _unitOfWork.UserDetails.Get(q => q.Id == id);
-            if (UserDetail == null)
+            var Location = await _unitOfWork.Locations.Get(q => q.Id == id);
+            if (Location == null)
             {
                 return NotFound();
             }
 
-            await _unitOfWork.UserDetails.Delete(id);
+            await _unitOfWork.Locations.Delete(id);
             await _unitOfWork.Save(HttpContext);
 
             return NoContent();
         }
 
-        private async Task<bool> UserDetailExists(int id)
+        private async Task<bool> LocationExists(int id)
         {
-            var UserDetail = await _unitOfWork.UserDetails.Get(q => q.Id == id);
-            return UserDetail != null;
+            var Location = await _unitOfWork.Locations.Get(q => q.Id == id);
+            return Location != null;
         }
     }
 }

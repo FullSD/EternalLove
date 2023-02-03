@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EternalLove.Server.Migrations
 {
-    public partial class newdb : Migration
+    public partial class AddApplicationTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -82,6 +82,23 @@ namespace EternalLove.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genders", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Locations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Locations", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -221,6 +238,7 @@ namespace EternalLove.Server.Migrations
                     PhotoLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location1Id = table.Column<int>(type: "int", nullable: false),
                     Perferance = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -234,6 +252,37 @@ namespace EternalLove.Server.Migrations
                         name: "FK_UserDetails_Genders_GenderId",
                         column: x => x.GenderId,
                         principalTable: "Genders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserDetails_Locations_Location1Id",
+                        column: x => x.Location1Id,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Blocks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BlockUser = table.Column<bool>(type: "bit", nullable: false),
+                    MyProperty = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Blocks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Blocks_UserDetails_UserId",
+                        column: x => x.UserId,
+                        principalTable: "UserDetails",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -268,15 +317,64 @@ namespace EternalLove.Server.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Genders",
-                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name", "UpdatedBy" },
-                values: new object[] { 1, "System", new DateTime(2023, 1, 30, 19, 44, 23, 757, DateTimeKind.Local).AddTicks(57), new DateTime(2023, 1, 30, 19, 44, 23, 758, DateTimeKind.Local).AddTicks(3184), "Male", "System" });
+            migrationBuilder.CreateTable(
+                name: "Reports",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReportBugs = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reports", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reports_UserDetails_UserId",
+                        column: x => x.UserId,
+                        principalTable: "UserDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReviewText = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Stars = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reviews_UserDetails_UserId",
+                        column: x => x.UserId,
+                        principalTable: "UserDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.InsertData(
                 table: "Genders",
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name", "UpdatedBy" },
-                values: new object[] { 2, "System", new DateTime(2023, 1, 30, 19, 44, 23, 758, DateTimeKind.Local).AddTicks(3760), new DateTime(2023, 1, 30, 19, 44, 23, 758, DateTimeKind.Local).AddTicks(3763), "Female", "System" });
+                values: new object[] { 1, "System", new DateTime(2023, 2, 4, 0, 31, 30, 559, DateTimeKind.Local).AddTicks(3805), new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7324), "Male", "System" });
+
+            migrationBuilder.InsertData(
+                table: "Genders",
+                columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name", "UpdatedBy" },
+                values: new object[] { 2, "System", new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7955), new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7958), "Female", "System" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -318,6 +416,11 @@ namespace EternalLove.Server.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Blocks_UserId",
+                table: "Blocks",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
                 table: "DeviceCodes",
                 column: "DeviceCode",
@@ -354,9 +457,24 @@ namespace EternalLove.Server.Migrations
                 columns: new[] { "SubjectId", "SessionId", "Type" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reports_UserId",
+                table: "Reports",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserDetails_GenderId",
                 table: "UserDetails",
                 column: "GenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserDetails_Location1Id",
+                table: "UserDetails",
+                column: "Location1Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -377,6 +495,9 @@ namespace EternalLove.Server.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Blocks");
+
+            migrationBuilder.DropTable(
                 name: "DeviceCodes");
 
             migrationBuilder.DropTable(
@@ -384,6 +505,12 @@ namespace EternalLove.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");
+
+            migrationBuilder.DropTable(
+                name: "Reports");
+
+            migrationBuilder.DropTable(
+                name: "Reviews");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -396,6 +523,9 @@ namespace EternalLove.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Genders");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
         }
     }
 }

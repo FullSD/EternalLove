@@ -1,0 +1,19 @@
+﻿@page  "/genders/create/"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Genders</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Gender" gender="gender" OnValidSubmit="@CreateGender" />
+@code {
+    Gender gender = new Gender();
+
+    private async Task CreateGender()
+    {
+        await _client.PostAsJsonAsync(Endpoints.GendersEndpoint, gender);
+        _navManager.NavigateTo("/genders/");
+
+    }
+}

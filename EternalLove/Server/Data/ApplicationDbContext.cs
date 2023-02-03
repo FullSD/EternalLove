@@ -23,6 +23,11 @@ namespace EternalLove.Server.Data
         public DbSet<UserDetail> UserDetails { get; set; }
         public DbSet<Gender> Genders { get; set; }
         public DbSet<Match> Matchs { get; set; }
+
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Block> Blocks { get; set; }
+        public DbSet<Report> Reports { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

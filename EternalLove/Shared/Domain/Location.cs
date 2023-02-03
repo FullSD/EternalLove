@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace EternalLove.Shared.Domain
 {
-    public class Gender : BaseDomainModel
+    public class Location : BaseDomainModel
     {
         [Required]
-        [StringLength(100, MinimumLength = 2, ErrorMessage = "Gender does not meet length requirements")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "Location does not meet length requirements")]
         public string Name { get; set; }
     }
 }
-    
