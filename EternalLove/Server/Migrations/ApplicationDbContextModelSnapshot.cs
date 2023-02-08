@@ -90,15 +90,15 @@ namespace EternalLove.Server.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("EternalLove.Shared.Domain.Block", b =>
+            modelBuilder.Entity("EternalLove.Shared.Domain.Chat", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("BlockUser")
-                        .HasColumnType("bit");
+                    b.Property<string>("ChatMessage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -108,9 +108,6 @@ namespace EternalLove.Server.Migrations
 
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("MyProperty")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -122,7 +119,7 @@ namespace EternalLove.Server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Blocks");
+                    b.ToTable("Chats");
                 });
 
             modelBuilder.Entity("EternalLove.Shared.Domain.Gender", b =>
@@ -142,7 +139,9 @@ namespace EternalLove.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -156,8 +155,8 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 4, 0, 31, 30, 559, DateTimeKind.Local).AddTicks(3805),
-                            DateUpdated = new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7324),
+                            DateCreated = new DateTime(2023, 2, 9, 1, 15, 57, 659, DateTimeKind.Local).AddTicks(8688),
+                            DateUpdated = new DateTime(2023, 2, 9, 1, 15, 57, 661, DateTimeKind.Local).AddTicks(6698),
                             Name = "Male",
                             UpdatedBy = "System"
                         },
@@ -165,8 +164,8 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7955),
-                            DateUpdated = new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7958),
+                            DateCreated = new DateTime(2023, 2, 9, 1, 15, 57, 661, DateTimeKind.Local).AddTicks(7243),
+                            DateUpdated = new DateTime(2023, 2, 9, 1, 15, 57, 661, DateTimeKind.Local).AddTicks(7245),
                             Name = "Female",
                             UpdatedBy = "System"
                         });
@@ -189,7 +188,9 @@ namespace EternalLove.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -219,9 +220,11 @@ namespace EternalLove.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UserDetail1Id")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("UserDetail2Id")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -319,17 +322,18 @@ namespace EternalLove.Server.Migrations
                     b.Property<DateTime>("DateUpdated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("GenderId")
+                    b.Property<int?>("GenderId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Location1Id")
+                    b.Property<int?>("LocationId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Perferance")
                         .HasColumnType("nvarchar(max)");
@@ -344,7 +348,7 @@ namespace EternalLove.Server.Migrations
 
                     b.HasIndex("GenderId");
 
-                    b.HasIndex("Location1Id");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("UserDetails");
                 });
@@ -587,7 +591,7 @@ namespace EternalLove.Server.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("EternalLove.Shared.Domain.Block", b =>
+            modelBuilder.Entity("EternalLove.Shared.Domain.Chat", b =>
                 {
                     b.HasOne("EternalLove.Shared.Domain.UserDetail", "User")
                         .WithMany()
@@ -602,11 +606,15 @@ namespace EternalLove.Server.Migrations
                 {
                     b.HasOne("EternalLove.Shared.Domain.UserDetail", "UserDetail1")
                         .WithMany()
-                        .HasForeignKey("UserDetail1Id");
+                        .HasForeignKey("UserDetail1Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("EternalLove.Shared.Domain.UserDetail", "UserDetail2")
                         .WithMany()
-                        .HasForeignKey("UserDetail2Id");
+                        .HasForeignKey("UserDetail2Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("UserDetail1");
 
@@ -643,15 +651,15 @@ namespace EternalLove.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EternalLove.Shared.Domain.Location", "Location1")
+                    b.HasOne("EternalLove.Shared.Domain.Location", "Location")
                         .WithMany()
-                        .HasForeignKey("Location1Id")
+                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Gender");
 
-                    b.Navigation("Location1");
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -22,6 +22,7 @@ namespace EternalLove.Server.Repository
         private IGenericRepository<Location> _Locations;
         private IGenericRepository<Report> _Reports;
         private IGenericRepository<Review> _Reviews;
+        private IGenericRepository<Chat> _Chats;
 
         private UserManager<ApplicationUser> _userManager;
 
@@ -47,6 +48,9 @@ namespace EternalLove.Server.Repository
 
         public IGenericRepository<Review> Reviews
             => _Reviews ??= new GenericRepository<Review>(_context);
+
+        public IGenericRepository<Chat> Chats
+            => _Chats ??= new GenericRepository<Chat>(_context);
 
         public void Dispose()
         {

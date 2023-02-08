@@ -1,0 +1,53 @@
+﻿@inject HttpClient _client
+
+<EditForm Model="@chat" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Name:</label>
+            <div>
+                <InputSelect @bind-Value="chat.UserId" class="form-control">
+                    <option value="">-- Select User --</option>
+                    @if (UserDetails != null)
+                    {
+                        foreach (var userdetail in UserDetails)
+                        {
+                            <option value="@userdetail.Id">@userdetail.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => chat.UserId)" />
+            </div>
+            <label>Chat: </label>
+            <div>
+                <InputText @bind-Value="@chat.ChatMessage" class="form-control" />
+                <ValidationMessage For="@(() => chat.ChatMessage)" />
+            </div>
+        </div>
+    </fieldset>
+    @if (!Disabled)
+    {
+        <button type="submit" class="btn btn-success btn-block">
+            @ButtonText
+        </button>
+
+    }
+    <BackToList Target="chats" />
+</EditForm>
+
+@code
+ {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public Chat chat { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private IList<UserDetail> UserDetails;
+
+    protected async override Task OnInitializedAsync()
+    {
+        UserDetails = await _client.GetFromJsonAsync<List<UserDetail>>($"{Endpoints.UserDetailsEndpoint}");
+    }
+
+}

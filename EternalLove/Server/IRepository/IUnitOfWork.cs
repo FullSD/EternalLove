@@ -17,5 +17,6 @@ namespace EternalLove.Server.IRepository
         IGenericRepository<Location> Locations { get; }
         IGenericRepository<Report> Reports { get; }
         IGenericRepository<Review> Reviews { get; }
+        IGenericRepository<Chat> Chats { get; }
     }
 }

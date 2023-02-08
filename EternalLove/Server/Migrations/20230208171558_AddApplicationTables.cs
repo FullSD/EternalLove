@@ -73,7 +73,7 @@ namespace EternalLove.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -90,7 +90,7 @@ namespace EternalLove.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -233,12 +233,11 @@ namespace EternalLove.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     GenderId = table.Column<int>(type: "int", nullable: false),
                     PhotoLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Bio = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Location1Id = table.Column<int>(type: "int", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: false),
                     Perferance = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -255,21 +254,20 @@ namespace EternalLove.Server.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserDetails_Locations_Location1Id",
-                        column: x => x.Location1Id,
+                        name: "FK_UserDetails_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Blocks",
+                name: "Chats",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BlockUser = table.Column<bool>(type: "bit", nullable: false),
-                    MyProperty = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ChatMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -278,9 +276,9 @@ namespace EternalLove.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Blocks", x => x.Id);
+                    table.PrimaryKey("PK_Chats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Blocks_UserDetails_UserId",
+                        name: "FK_Chats_UserDetails_UserId",
                         column: x => x.UserId,
                         principalTable: "UserDetails",
                         principalColumn: "Id",
@@ -293,8 +291,8 @@ namespace EternalLove.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserDetail1Id = table.Column<int>(type: "int", nullable: true),
-                    UserDetail2Id = table.Column<int>(type: "int", nullable: true),
+                    UserDetail1Id = table.Column<int>(type: "int", nullable: false),
+                    UserDetail2Id = table.Column<int>(type: "int", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -308,13 +306,13 @@ namespace EternalLove.Server.Migrations
                         column: x => x.UserDetail1Id,
                         principalTable: "UserDetails",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Matchs_UserDetails_UserDetail2Id",
                         column: x => x.UserDetail2Id,
                         principalTable: "UserDetails",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -369,12 +367,12 @@ namespace EternalLove.Server.Migrations
             migrationBuilder.InsertData(
                 table: "Genders",
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name", "UpdatedBy" },
-                values: new object[] { 1, "System", new DateTime(2023, 2, 4, 0, 31, 30, 559, DateTimeKind.Local).AddTicks(3805), new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7324), "Male", "System" });
+                values: new object[] { 1, "System", new DateTime(2023, 2, 9, 1, 15, 57, 659, DateTimeKind.Local).AddTicks(8688), new DateTime(2023, 2, 9, 1, 15, 57, 661, DateTimeKind.Local).AddTicks(6698), "Male", "System" });
 
             migrationBuilder.InsertData(
                 table: "Genders",
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name", "UpdatedBy" },
-                values: new object[] { 2, "System", new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7955), new DateTime(2023, 2, 4, 0, 31, 30, 560, DateTimeKind.Local).AddTicks(7958), "Female", "System" });
+                values: new object[] { 2, "System", new DateTime(2023, 2, 9, 1, 15, 57, 661, DateTimeKind.Local).AddTicks(7243), new DateTime(2023, 2, 9, 1, 15, 57, 661, DateTimeKind.Local).AddTicks(7245), "Female", "System" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -416,8 +414,8 @@ namespace EternalLove.Server.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Blocks_UserId",
-                table: "Blocks",
+                name: "IX_Chats_UserId",
+                table: "Chats",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -472,9 +470,9 @@ namespace EternalLove.Server.Migrations
                 column: "GenderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserDetails_Location1Id",
+                name: "IX_UserDetails_LocationId",
                 table: "UserDetails",
-                column: "Location1Id");
+                column: "LocationId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -495,7 +493,7 @@ namespace EternalLove.Server.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Blocks");
+                name: "Chats");
 
             migrationBuilder.DropTable(
                 name: "DeviceCodes");

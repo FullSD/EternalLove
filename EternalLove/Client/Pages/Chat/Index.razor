@@ -1,0 +1,90 @@
+﻿@page  "/chats/"
+@inject HttpClient _client
+@inject IJSRuntime js
+@attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
+
+<h3 class="card-title">Chats</h3>
+<style>
+    h3 {
+        color: aliceblue;
+
+    }
+
+    body {
+        background-color: hotpink;
+    }
+</style>
+<br />
+<a href="/chats/create" class="btn btn-secondary">
+    <span class="oi oi-plus"></span>
+    Create New Chats
+</a>
+<br />
+<br />
+
+@if (Chats == null)
+{
+    <div class="alert alert-info"> Loading Chats...</div>
+}
+else
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Chat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chat in Chats)
+            {
+                <tr>
+                    <td>@chat.User.Name</td>
+                    <td>@chat.ChatMessage</td>
+                    <td>
+                        <a href="/chats/view/@chat.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/chats/edit/@chat.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(chat.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Chat> Chats;
+
+    protected async override Task OnInitializedAsync()
+    {
+        _interceptor.MonitorEvent();
+        Chats = await _client.GetFromJsonAsync<List<Chat>>($"{Endpoints.ChatsEndpoint}");
+    }
+
+    async Task Delete(int ChatId)
+    {
+        var chat = Chats.First(q => q.Id == ChatId);
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {chat.ChatMessage}?");
+        if (confirm)
+        {
+            await _client.DeleteAsync($"{Endpoints.ChatsEndpoint}/{ChatId}");
+            await OnInitializedAsync();
+        }
+
+
+    }
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
+    }
+}

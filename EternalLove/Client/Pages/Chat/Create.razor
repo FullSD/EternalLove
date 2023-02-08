@@ -1,0 +1,32 @@
+﻿ @page "/chats/create"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create New Message</h3>
+<style>
+    h3 {
+        color: aliceblue;
+
+    }
+
+    body {
+        background-color: hotpink;
+    }
+</style>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create New Message" chat="chat" OnValidSubmit="@CreateChats" />
+
+@code {
+    Chat chat = new Chat();
+
+    
+    private async Task CreateChats()
+    {
+        await _client.PostAsJsonAsync(Endpoints.ChatsEndpoint, chat);
+        _navManager.NavigateTo("/Chats/");
+
+    }
+
+}
