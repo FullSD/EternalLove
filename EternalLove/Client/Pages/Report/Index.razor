@@ -2,9 +2,20 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Reports</h3>
+<style>
+    h3 {
+        color: aliceblue;
 
+    }
+
+    body {
+        background-color: hotpink;
+    }
+</style>
 <br />
 <a href="/reports/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
@@ -30,21 +41,21 @@ else
         <tbody>
             @foreach (var report in Reports)
             {
-            <tr>
-                <td>@report.User.Name</td>
-                <td>@report.ReportBugs</td>
-                <td>
-                    <a href="/reports/view/@report.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/reports/edit/@report.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(report.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <td>@report.User.Name</td>
+                    <td>@report.ReportBugs</td>
+                    <td>
+                        <a href="/reports/view/@report.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/reports/edit/@report.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(report.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
 
             }
         </tbody>
@@ -56,6 +67,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         Reports = await _client.GetFromJsonAsync<List<Report>>($"{Endpoints.ReportsEndpoint}");
     }
 
@@ -70,5 +82,9 @@ else
         }
 
 
+    }
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

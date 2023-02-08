@@ -10,13 +10,13 @@ namespace EternalLove.Shared.Domain
 {
     public class Match : BaseDomainModel, IValidatableObject
     {
-        [Required]
+        [Required(ErrorMessage = "Please select a user")]
         [ForeignKey("UserDetail1Id")]
         public int? UserDetail1Id { get; set; }
 
         public virtual UserDetail UserDetail1 { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a user")]
         [ForeignKey("UserDetail2Id")]
         public int? UserDetail2Id { get; set; }
         public virtual UserDetail UserDetail2 { get; set; }
@@ -26,7 +26,7 @@ namespace EternalLove.Shared.Domain
             {
                 if (UserDetail1Id == UserDetail2Id)
                 {
-                    yield return new ValidationResult("User cannot be the same", new[] { "UserDetail1Id" });
+                    yield return new ValidationResult("User cannot be the same", new[] { "UserDetail2Id" });
                 }
 
             }

@@ -2,8 +2,20 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">MatchMaking Page</h3>
+<style>
+    h3 {
+        color: aliceblue;
+
+    }
+
+    body {
+        background-color: hotpink;
+    }
+</style>
 <br />
 
 <a href="/userdetails/create" class="btn btn-secondary">
@@ -19,7 +31,7 @@
 }
 else
 {
-    <table class="table table-responsive">
+    <table class="table table-responsive" id="userdetailsTable">
         <thead>
             <tr>
                 <th>Name</th>
@@ -33,26 +45,26 @@ else
         </thead>
         <tbody>
             @foreach (var userdetail in UserDetails)
-            {   
-            <tr>
-                <td>@userdetail.Name</td>
-                <td>@userdetail.Gender.Name</td>
-                <td><img src=@userdetail.PhotoLink width="180" height="180"></td>
-                <td>@userdetail.Bio</td>
-                <td>@userdetail.Perferance</td>
-                <td>@userdetail.Location1.Name</td>
-                <td>
-                    <a href="/userdetails/view/@userdetail.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/userdetails/edit/@userdetail.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(userdetail.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+            {
+                <tr>
+                    <td>@userdetail.Name</td>
+                    <td>@userdetail.Gender.Name</td>
+                    <td><img src=@userdetail.PhotoLink width="180" height="180"></td>
+                    <td>@userdetail.Bio</td>
+                    <td>@userdetail.Perferance</td>
+                    <td>@userdetail.Location.Name</td>
+                    <td>
+                        <a href="/userdetails/view/@userdetail.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/userdetails/edit/@userdetail.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(userdetail.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -65,7 +77,17 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         UserDetails = await _client.GetFromJsonAsync<List<UserDetail>>($"{Endpoints.UserDetailsEndpoint}");
+    }
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        await js.InvokeVoidAsync("AddDataTable", "#userdetailsTable");
+    }
+    public void Dispose()
+    {
+        js.InvokeVoidAsync("DataTablesDispose", "#userdetailsTable");
+        _interceptor.DisposeEvent();
     }
     async Task Delete(int userdetailId)
     {
@@ -77,5 +99,6 @@ else
             await OnInitializedAsync();
         }
     }
+
 
 }

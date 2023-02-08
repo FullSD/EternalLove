@@ -14,7 +14,8 @@ namespace EternalLove.Shared.Domain
         [Required]
         [Range(1, 5, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int Stars { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Please select a user")]
         public int UserId { get; set; }
         public virtual UserDetail User{ get; set; }
     }

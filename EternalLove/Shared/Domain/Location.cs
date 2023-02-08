@@ -9,7 +9,7 @@ namespace EternalLove.Shared.Domain
 {
     public class Location : BaseDomainModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please type in location name")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Location does not meet length requirements")]
         public string Name { get; set; }
     }

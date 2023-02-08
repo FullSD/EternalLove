@@ -26,7 +26,6 @@ namespace EternalLove.Server.Data
 
         public DbSet<Location> Locations { get; set; }
         public DbSet<Review> Reviews { get; set; }
-        public DbSet<Block> Blocks { get; set; }
         public DbSet<Report> Reports { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -2,9 +2,20 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Reviews</h3>
+<style>
+    h3 {
+        color: aliceblue;
 
+    }
+
+    body {
+        background-color: hotpink;
+    }
+</style>
 <br />
 <a href="/reviews/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
@@ -31,22 +42,22 @@ else
         <tbody>
             @foreach (var review in Reviews)
             {
-            <tr>
-                <td>@review.User.Name</td>
-                <td>@review.ReviewText</td>
-                <td>@review.Stars</td>
-                <td>
-                    <a href="/reviews/view/@review.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/reviews/edit/@review.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(review.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <td>@review.User.Name</td>
+                    <td>@review.ReviewText</td>
+                    <td>@review.Stars</td>
+                    <td>
+                        <a href="/reviews/view/@review.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/reviews/edit/@review.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(review.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
 
             }
         </tbody>
@@ -58,6 +69,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         Reviews = await _client.GetFromJsonAsync<List<Review>>($"{Endpoints.ReviewsEndpoint}");
     }
 
@@ -72,5 +84,9 @@ else
         }
 
 
+    }
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

@@ -26,7 +26,7 @@ namespace EternalLove.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserDetails()
         {
-            var UserDetails = await _unitOfWork.UserDetails.GetAll(includes: q => q.Include(x => x.Gender).Include(x => x.Location1));
+            var UserDetails = await _unitOfWork.UserDetails.GetAll(includes: q => q.Include(x => x.Gender).Include(x => x.Location));
             return Ok(UserDetails);
         }
 

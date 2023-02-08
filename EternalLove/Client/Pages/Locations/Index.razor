@@ -2,9 +2,20 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
 
 <h3 class="card-title">Locations</h3>
+<style>
+    h3 {
+        color: aliceblue;
 
+    }
+
+    body {
+        background-color: hotpink;
+    }
+</style>
 <br />
 <a href="/locations/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
@@ -54,6 +65,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         Locations = await _client.GetFromJsonAsync<List<Location>>($"{Endpoints.LocationsEndpoint}");
     }
 
@@ -68,5 +80,9 @@ else
         }
 
 
+    }
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

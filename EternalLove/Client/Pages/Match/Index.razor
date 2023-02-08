@@ -2,8 +2,21 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
+
 
 <h3 class="card-title">Match</h3>
+<style>
+    h3 {
+        color: aliceblue;
+
+    }
+
+    body {
+        background-color: hotpink;
+    }
+</style>
 <br />
 
 <a href="/matchs/create" class="btn btn-secondary">
@@ -30,21 +43,21 @@ else
         <tbody>
             @foreach (var match in Matchs)
             {
-            <tr>
-                <td>@match.UserDetail1.Name</td>
-                <td>@match.UserDetail2.Name</td>
-                <td>
-                    <a href="/matchs/view/@match.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/matchs/edit/@match.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(match.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <td>@match.UserDetail1.Name</td>
+                    <td>@match.UserDetail2.Name</td>
+                    <td>
+                        <a href="/matchs/view/@match.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/matchs/edit/@match.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(match.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -56,6 +69,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         Matchs = await _client.GetFromJsonAsync<List<Match>>($"{Endpoints.MatchsEndpoint}");
     }
     async Task Delete(int matchId)
@@ -67,6 +81,10 @@ else
             await _client.DeleteAsync($"{Endpoints.MatchsEndpoint}/{matchId}");
             await OnInitializedAsync();
         }
+    }
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 
 }

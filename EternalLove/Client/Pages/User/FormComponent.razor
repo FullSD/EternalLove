@@ -54,7 +54,7 @@
             <div class="form-group">
                 <label>Location:</label>
                 <div>
-                    <InputSelect @bind-Value="userdetail.Location1Id" class="form-control">
+                    <InputSelect @bind-Value="userdetail.LocationId" class="form-control">
                         <option value="">-- Select Location --</option>
                         @if (Locations != null)
                         {
@@ -64,7 +64,7 @@
                             }
                         }
                     </InputSelect>
-                    <ValidationMessage For="@(() => userdetail.Location1Id)" />
+                    <ValidationMessage For="@(() => userdetail.LocationId)" />
                 </div>
             </div>
         </div>

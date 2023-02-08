@@ -3,7 +3,16 @@
 @inject NavigationManager _navManager
 
 <h3>View User</h3>
+<style>
+    h3 {
+        color: aliceblue;
 
+    }
+
+    body {
+        background-color: hotpink;
+    }
+</style>
 <FormComponent userdetail="userdetail" Disabled="true" />
 @code {
     [Parameter] public int id { get; set; }

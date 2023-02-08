@@ -10,20 +10,19 @@ namespace EternalLove.Shared.Domain
 {
     public class UserDetail : BaseDomainModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please type in your name")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Name does not meet length requirements")]
         public string Name { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please select a gender")]
         public int? GenderId { get; set; }
         public virtual Gender Gender { get; set; }
         public string PhotoLink { get; set; }
         public string Bio { get; set; }
-        public string Location { get; set; }
 
-        [Required]
-        public int? Location1Id { get; set; }
-        public virtual Location Location1 { get; set; }
+        [Required(ErrorMessage = "Please select a location")]
+        public int? LocationId { get; set; }
+        public virtual Location Location { get; set; }
 
         public string Perferance { get; set; }
 

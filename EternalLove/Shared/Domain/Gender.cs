@@ -9,7 +9,7 @@ namespace EternalLove.Shared.Domain
 {
     public class Gender : BaseDomainModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please type in gender")]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Gender does not meet length requirements")]
         public string Name { get; set; }
     }

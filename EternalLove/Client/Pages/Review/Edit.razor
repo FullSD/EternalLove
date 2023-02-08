@@ -3,7 +3,16 @@
 @inject NavigationManager _navManager
 
 <h3>Edit Review</h3>
+<style>
+    h3 {
+        color: aliceblue;
 
+    }
+
+    body {
+        background-color: hotpink;
+    }
+</style>
 <FormComponent ButtonText="Update" OnValidSubmit="EditReview" review="review" />
 
 @code {

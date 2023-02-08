@@ -3,7 +3,15 @@
 @inject NavigationManager _navManager
 
 <h3>Edit Gender</h3>
+<style>
+    h3 {
+        color: aliceblue;
+    }
 
+    body {
+        background-color: hotpink;
+    }
+</style>
 <FormComponent ButtonText="Update" OnValidSubmit="EditGender" gender="gender" />
 
 @code {
