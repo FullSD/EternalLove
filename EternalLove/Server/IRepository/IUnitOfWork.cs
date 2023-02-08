@@ -15,6 +15,7 @@ namespace EternalLove.Server.IRepository
         IGenericRepository<Gender> Genders { get; }
         IGenericRepository<Match> Matchs { get; }
         IGenericRepository<Location> Locations { get; }
-
+        IGenericRepository<Report> Reports { get; }
+        IGenericRepository<Review> Reviews { get; }
     }
 }

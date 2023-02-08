@@ -1,0 +1,22 @@
+﻿ @page "/reports/create"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3 class="card-title">Create Report</h3>
+<hr />
+<br />
+
+<FormComponent ButtonText="Create Report" report="report" OnValidSubmit="@CreateReports" />
+
+@code {
+    Report report = new Report();
+
+    
+    private async Task CreateReports()
+    {
+        await _client.PostAsJsonAsync(Endpoints.ReportsEndpoint, report);
+        _navManager.NavigateTo("/Reports/");
+
+    }
+
+}

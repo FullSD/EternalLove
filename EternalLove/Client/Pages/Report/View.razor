@@ -1,0 +1,17 @@
+﻿@page "/reports/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+<h3>View Report</h3>
+
+<FormComponent report="report" Disabled="true" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    Report report = new Report();
+    protected async override Task OnParametersSetAsync()
+    {
+        report = await
+        _client.GetFromJsonAsync<Report>($"{Endpoints.ReportsEndpoint}/{id}");
+    }
+}
+

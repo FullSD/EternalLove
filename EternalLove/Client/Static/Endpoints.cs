@@ -13,5 +13,7 @@ namespace EternalLove.Client.Static
         public static readonly string GendersEndpoint = $"{Prefix}/genders";
         public static readonly string MatchsEndpoint = $"{Prefix}/matchs";
         public static readonly string LocationsEndpoint = $"{Prefix}/locations";
+        public static readonly string ReviewsEndpoint = $"{Prefix}/reviews";
+        public static readonly string ReportsEndpoint = $"{Prefix}/reports";
     }
 }

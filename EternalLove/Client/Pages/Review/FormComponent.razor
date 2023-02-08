@@ -1,0 +1,59 @@
+﻿@inject HttpClient _client
+
+<EditForm Model="@review" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <fieldset disabled="@Disabled">
+        <div class="form-group">
+            <label>Name:</label>
+            <div>
+                <InputSelect @bind-Value="review.UserId" class="form-control">
+                    <option value="">-- Select User --</option>
+                    @if (UserDetails != null)
+                    {
+                        foreach (var userdetail in UserDetails)
+                        {
+                            <option value="@userdetail.Id">@userdetail.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => review.UserId)" />
+            </div>
+            <label>Review: </label>
+            <div>
+                <InputText @bind-Value="review.ReviewText" class="form-control" />
+                <ValidationMessage For="@(() => review.ReviewText)" />
+            </div>
+            <label>Stars: </label>
+            <div>
+                <InputNumber @bind-Value="review.Stars" class="form-control" />
+                <ValidationMessage For="@(() => review.Stars)" />
+            </div>
+
+
+        </div>
+    </fieldset>
+    @if (!Disabled)
+    {
+        <button type="submit" class="btn btn-success btn-block">
+            @ButtonText
+        </button>
+
+    }
+    <BackToList Target="reviews" />
+</EditForm>
+
+@code {
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public Review review { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private IList<UserDetail> UserDetails;
+
+    protected async override Task OnInitializedAsync()
+    {
+        UserDetails = await _client.GetFromJsonAsync<List<UserDetail>>($"{Endpoints.UserDetailsEndpoint}");
+    }
+
+}
