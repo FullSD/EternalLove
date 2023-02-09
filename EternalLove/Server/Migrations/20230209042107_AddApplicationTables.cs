@@ -268,8 +268,7 @@ namespace EternalLove.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ChatMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    UserDetail1Id = table.Column<int>(type: "int", nullable: true),
+                    UserDetail1Id = table.Column<int>(type: "int", nullable: false),
                     UserDetail2Id = table.Column<int>(type: "int", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -284,7 +283,7 @@ namespace EternalLove.Server.Migrations
                         column: x => x.UserDetail1Id,
                         principalTable: "UserDetails",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Chats_UserDetails_UserDetail2Id",
                         column: x => x.UserDetail2Id,
@@ -377,8 +376,8 @@ namespace EternalLove.Server.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2023, 2, 9, 11, 56, 27, 569, DateTimeKind.Local).AddTicks(4514), new DateTime(2023, 2, 9, 11, 56, 27, 570, DateTimeKind.Local).AddTicks(8164), "Male", "System" },
-                    { 2, "System", new DateTime(2023, 2, 9, 11, 56, 27, 570, DateTimeKind.Local).AddTicks(9116), new DateTime(2023, 2, 9, 11, 56, 27, 570, DateTimeKind.Local).AddTicks(9121), "Female", "System" }
+                    { 1, "System", new DateTime(2023, 2, 9, 12, 21, 6, 767, DateTimeKind.Local).AddTicks(1540), new DateTime(2023, 2, 9, 12, 21, 6, 768, DateTimeKind.Local).AddTicks(1722), "Male", "System" },
+                    { 2, "System", new DateTime(2023, 2, 9, 12, 21, 6, 768, DateTimeKind.Local).AddTicks(2258), new DateTime(2023, 2, 9, 12, 21, 6, 768, DateTimeKind.Local).AddTicks(2261), "Female", "System" }
                 });
 
             migrationBuilder.InsertData(
@@ -386,10 +385,28 @@ namespace EternalLove.Server.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4776), new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4791), "Tampines", "System" },
-                    { 2, "System", new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4796), new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4797), "Pasir Ris", "System" },
-                    { 3, "System", new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4799), new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4800), "Simei", "System" },
-                    { 4, "System", new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4802), new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4803), "Bedok", "System" }
+                    { 1, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(2154), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(2164), "Tampines", "System" },
+                    { 2, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(2167), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(2168), "Pasir Ris", "System" },
+                    { 3, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(2169), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(2170), "Simei", "System" },
+                    { 4, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(2171), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(2172), "Bedok", "System" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UserDetails",
+                columns: new[] { "Id", "Bio", "CreatedBy", "DateCreated", "DateUpdated", "GenderId", "LocationId", "Name", "Perferance", "PhotoLink", "UpdatedBy" },
+                values: new object[,]
+                {
+                    { 1, null, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8400), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8406), 1, 1, "Vince", null, null, "System" },
+                    { 2, null, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8409), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8410), 1, 1, "Sarin", null, null, "System" },
+                    { 10, null, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8426), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8427), 1, 1, "Sam", null, null, "System" },
+                    { 4, null, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8413), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8414), 2, 2, "Mary", null, null, "System" },
+                    { 8, null, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8422), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8423), 1, 2, "Ming", null, null, "System" },
+                    { 9, null, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8424), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8425), 2, 2, "Hana", null, null, "System" },
+                    { 11, null, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8428), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8429), 2, 2, "Kim", null, null, "System" },
+                    { 3, null, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8411), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8412), 1, 3, "Gary", null, null, "System" },
+                    { 7, null, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8420), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8421), 2, 3, "Stacia", null, null, "System" },
+                    { 5, null, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8415), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8416), 2, 4, "Jane", null, null, "System" },
+                    { 6, null, "System", new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8417), new DateTime(2023, 2, 9, 12, 21, 6, 769, DateTimeKind.Local).AddTicks(8418), 1, 4, "Tom", null, null, "System" }
                 });
 
             migrationBuilder.CreateIndex(

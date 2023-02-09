@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EternalLove.Shared.Domain
 {
@@ -16,7 +17,7 @@ namespace EternalLove.Shared.Domain
         public int Stars { get; set; }
 
         [Required(ErrorMessage = "Please select a user")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public virtual UserDetail User{ get; set; }
     }
 }
