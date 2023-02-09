@@ -112,12 +112,20 @@ namespace EternalLove.Server.Migrations
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserDetail1Id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserDetail2Id")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserDetail1Id");
+
+                    b.HasIndex("UserDetail2Id");
 
                     b.ToTable("Chats");
                 });
@@ -155,8 +163,8 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 322, DateTimeKind.Local).AddTicks(8363),
-                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 323, DateTimeKind.Local).AddTicks(7339),
+                            DateCreated = new DateTime(2023, 2, 9, 11, 56, 27, 569, DateTimeKind.Local).AddTicks(4514),
+                            DateUpdated = new DateTime(2023, 2, 9, 11, 56, 27, 570, DateTimeKind.Local).AddTicks(8164),
                             Name = "Male",
                             UpdatedBy = "System"
                         },
@@ -164,8 +172,8 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 323, DateTimeKind.Local).AddTicks(7831),
-                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 323, DateTimeKind.Local).AddTicks(7834),
+                            DateCreated = new DateTime(2023, 2, 9, 11, 56, 27, 570, DateTimeKind.Local).AddTicks(9116),
+                            DateUpdated = new DateTime(2023, 2, 9, 11, 56, 27, 570, DateTimeKind.Local).AddTicks(9121),
                             Name = "Female",
                             UpdatedBy = "System"
                         });
@@ -204,8 +212,8 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6345),
-                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6353),
+                            DateCreated = new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4776),
+                            DateUpdated = new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4791),
                             Name = "Tampines",
                             UpdatedBy = "System"
                         },
@@ -213,8 +221,8 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6355),
-                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6356),
+                            DateCreated = new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4796),
+                            DateUpdated = new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4797),
                             Name = "Pasir Ris",
                             UpdatedBy = "System"
                         },
@@ -222,8 +230,8 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 3,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6357),
-                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6358),
+                            DateCreated = new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4799),
+                            DateUpdated = new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4800),
                             Name = "Simei",
                             UpdatedBy = "System"
                         },
@@ -231,8 +239,8 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 4,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6359),
-                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6360),
+                            DateCreated = new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4802),
+                            DateUpdated = new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4803),
                             Name = "Bedok",
                             UpdatedBy = "System"
                         });
@@ -629,13 +637,17 @@ namespace EternalLove.Server.Migrations
 
             modelBuilder.Entity("EternalLove.Shared.Domain.Chat", b =>
                 {
-                    b.HasOne("EternalLove.Shared.Domain.UserDetail", "User")
+                    b.HasOne("EternalLove.Shared.Domain.UserDetail", "UserDetail1")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserDetail1Id");
 
-                    b.Navigation("User");
+                    b.HasOne("EternalLove.Shared.Domain.UserDetail", "UserDetail2")
+                        .WithMany()
+                        .HasForeignKey("UserDetail2Id");
+
+                    b.Navigation("UserDetail1");
+
+                    b.Navigation("UserDetail2");
                 });
 
             modelBuilder.Entity("EternalLove.Shared.Domain.Match", b =>

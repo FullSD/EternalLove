@@ -26,7 +26,7 @@ namespace EternalLove.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetChats()
         {
-            var Chats = await _unitOfWork.Chats.GetAll(includes: q => q.Include(x => x.User));
+            var Chats = await _unitOfWork.Chats.GetAll(includes: q => q.Include(x => x.UserDetail1).Include(x => x.UserDetail2));
             return Ok(Chats);
         }
 

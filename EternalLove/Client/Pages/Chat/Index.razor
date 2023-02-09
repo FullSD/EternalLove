@@ -33,29 +33,31 @@ else
     <table class="table table-responsive">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Chat</th>
+                <th>To</th>
+                <th>From</th>
+                <th>Message</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var chat in Chats)
             {
-                <tr>
-                    <td>@chat.User.Name</td>
-                    <td>@chat.ChatMessage</td>
-                    <td>
-                        <a href="/chats/view/@chat.Id" class="btn btn-primary">
-                            <span class="oi oi-book"></span>
-                        </a>
-                        <a href="/chats/edit/@chat.Id" class="btn btn-warning">
-                            <span class="oi oi-pencil"></span>
-                        </a>
-                        <button class="btn btn-danger" @onclick="@(()=>Delete(chat.Id))">
-                            <span class="oi oi-delete"></span>
-                        </button>
-                    </td>
-                </tr>
+            <tr>
+                <td>@chat.UserDetail1.Name</td>
+                <td>@chat.UserDetail2.Name</td>
+                <td>@chat.ChatMessage</td>
+                <td>
+                    <a href="/chats/view/@chat.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/chats/edit/@chat.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(chat.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
 
             }
         </tbody>

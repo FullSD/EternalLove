@@ -5,9 +5,9 @@
     <ValidationSummary />
     <fieldset disabled="@Disabled">
         <div class="form-group">
-            <label>Name:</label>
+            <label>To Match:</label>
             <div>
-                <InputSelect @bind-Value="chat.UserId" class="form-control">
+                <InputSelect @bind-Value="chat.UserDetail1Id" class="form-control">
                     <option value="">-- Select User --</option>
                     @if (UserDetails != null)
                     {
@@ -17,11 +17,25 @@
                         }
                     }
                 </InputSelect>
-                <ValidationMessage For="@(() => chat.UserId)" />
+                <ValidationMessage For="@(() => chat.UserDetail1Id)" />
+            </div>
+            <label>From User:</label>
+            <div>
+                <InputSelect @bind-Value="chat.UserDetail2Id" class="form-control">
+                    <option value="">-- Select User --</option>
+                    @if (UserDetails != null)
+                    {
+                        foreach (var userdetail in UserDetails)
+                        {
+                            <option value="@userdetail.Id">@userdetail.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => chat.UserDetail2Id)" />
             </div>
             <label>Chat: </label>
             <div>
-                <InputText @bind-Value="@chat.ChatMessage" class="form-control" />
+                <InputTextArea @bind-Value="@chat.ChatMessage" class="form-control" />
                 <ValidationMessage For="@(() => chat.ChatMessage)" />
             </div>
         </div>

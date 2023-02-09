@@ -46,8 +46,17 @@
         <div class="form-group">
             <label>Preference:</label>
             <div>
-                <InputText @bind-Value="userdetail.Perferance" class="form-control" />
-                <ValidationMessage For="@(()=>userdetail.Perferance)" />
+                <InputSelect @bind-Value="userdetail.GenderId" class="form-control">
+                    <option value="">-- Select Gender --</option>
+                    @if (Genders != null)
+                    {
+                        foreach (var gender in Genders)
+                        {
+                            <option value="@gender.Id">@gender.Name</option>
+                        }
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => userdetail.GenderId)" />
             </div>
         </div>
         <div class="form-group">

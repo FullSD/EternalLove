@@ -269,6 +269,8 @@ namespace EternalLove.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ChatMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
+                    UserDetail1Id = table.Column<int>(type: "int", nullable: true),
+                    UserDetail2Id = table.Column<int>(type: "int", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -278,11 +280,17 @@ namespace EternalLove.Server.Migrations
                 {
                     table.PrimaryKey("PK_Chats", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Chats_UserDetails_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Chats_UserDetails_UserDetail1Id",
+                        column: x => x.UserDetail1Id,
                         principalTable: "UserDetails",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Chats_UserDetails_UserDetail2Id",
+                        column: x => x.UserDetail2Id,
+                        principalTable: "UserDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -369,8 +377,8 @@ namespace EternalLove.Server.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2023, 2, 9, 10, 33, 32, 322, DateTimeKind.Local).AddTicks(8363), new DateTime(2023, 2, 9, 10, 33, 32, 323, DateTimeKind.Local).AddTicks(7339), "Male", "System" },
-                    { 2, "System", new DateTime(2023, 2, 9, 10, 33, 32, 323, DateTimeKind.Local).AddTicks(7831), new DateTime(2023, 2, 9, 10, 33, 32, 323, DateTimeKind.Local).AddTicks(7834), "Female", "System" }
+                    { 1, "System", new DateTime(2023, 2, 9, 11, 56, 27, 569, DateTimeKind.Local).AddTicks(4514), new DateTime(2023, 2, 9, 11, 56, 27, 570, DateTimeKind.Local).AddTicks(8164), "Male", "System" },
+                    { 2, "System", new DateTime(2023, 2, 9, 11, 56, 27, 570, DateTimeKind.Local).AddTicks(9116), new DateTime(2023, 2, 9, 11, 56, 27, 570, DateTimeKind.Local).AddTicks(9121), "Female", "System" }
                 });
 
             migrationBuilder.InsertData(
@@ -378,10 +386,10 @@ namespace EternalLove.Server.Migrations
                 columns: new[] { "Id", "CreatedBy", "DateCreated", "DateUpdated", "Name", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, "System", new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6345), new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6353), "Tampines", "System" },
-                    { 2, "System", new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6355), new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6356), "Pasir Ris", "System" },
-                    { 3, "System", new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6357), new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6358), "Simei", "System" },
-                    { 4, "System", new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6359), new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6360), "Bedok", "System" }
+                    { 1, "System", new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4776), new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4791), "Tampines", "System" },
+                    { 2, "System", new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4796), new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4797), "Pasir Ris", "System" },
+                    { 3, "System", new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4799), new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4800), "Simei", "System" },
+                    { 4, "System", new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4802), new DateTime(2023, 2, 9, 11, 56, 27, 572, DateTimeKind.Local).AddTicks(4803), "Bedok", "System" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -424,9 +432,14 @@ namespace EternalLove.Server.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Chats_UserId",
+                name: "IX_Chats_UserDetail1Id",
                 table: "Chats",
-                column: "UserId");
+                column: "UserDetail1Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chats_UserDetail2Id",
+                table: "Chats",
+                column: "UserDetail2Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
