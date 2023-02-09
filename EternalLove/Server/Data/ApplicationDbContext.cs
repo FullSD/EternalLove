@@ -32,6 +32,7 @@ namespace EternalLove.Server.Data
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new GenderSeedConfiguration());
+            builder.ApplyConfiguration(new LocationSeedConfiguration());
         }
 
     }

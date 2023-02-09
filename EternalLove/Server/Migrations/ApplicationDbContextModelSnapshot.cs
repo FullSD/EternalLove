@@ -155,8 +155,8 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 1,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 9, 1, 15, 57, 659, DateTimeKind.Local).AddTicks(8688),
-                            DateUpdated = new DateTime(2023, 2, 9, 1, 15, 57, 661, DateTimeKind.Local).AddTicks(6698),
+                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 322, DateTimeKind.Local).AddTicks(8363),
+                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 323, DateTimeKind.Local).AddTicks(7339),
                             Name = "Male",
                             UpdatedBy = "System"
                         },
@@ -164,8 +164,8 @@ namespace EternalLove.Server.Migrations
                         {
                             Id = 2,
                             CreatedBy = "System",
-                            DateCreated = new DateTime(2023, 2, 9, 1, 15, 57, 661, DateTimeKind.Local).AddTicks(7243),
-                            DateUpdated = new DateTime(2023, 2, 9, 1, 15, 57, 661, DateTimeKind.Local).AddTicks(7245),
+                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 323, DateTimeKind.Local).AddTicks(7831),
+                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 323, DateTimeKind.Local).AddTicks(7834),
                             Name = "Female",
                             UpdatedBy = "System"
                         });
@@ -198,6 +198,44 @@ namespace EternalLove.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Locations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6345),
+                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6353),
+                            Name = "Tampines",
+                            UpdatedBy = "System"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6355),
+                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6356),
+                            Name = "Pasir Ris",
+                            UpdatedBy = "System"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6357),
+                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6358),
+                            Name = "Simei",
+                            UpdatedBy = "System"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedBy = "System",
+                            DateCreated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6359),
+                            DateUpdated = new DateTime(2023, 2, 9, 10, 33, 32, 324, DateTimeKind.Local).AddTicks(6360),
+                            Name = "Bedok",
+                            UpdatedBy = "System"
+                        });
                 });
 
             modelBuilder.Entity("EternalLove.Shared.Domain.Match", b =>
@@ -220,11 +258,9 @@ namespace EternalLove.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UserDetail1Id")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("UserDetail2Id")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -606,15 +642,11 @@ namespace EternalLove.Server.Migrations
                 {
                     b.HasOne("EternalLove.Shared.Domain.UserDetail", "UserDetail1")
                         .WithMany()
-                        .HasForeignKey("UserDetail1Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserDetail1Id");
 
                     b.HasOne("EternalLove.Shared.Domain.UserDetail", "UserDetail2")
                         .WithMany()
-                        .HasForeignKey("UserDetail2Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserDetail2Id");
 
                     b.Navigation("UserDetail1");
 
